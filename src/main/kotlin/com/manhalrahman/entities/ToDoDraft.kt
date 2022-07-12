@@ -1,4 +1,6 @@
 package com.manhalrahman.entities
 
-class ToDoDraft {
-}
+data class ToDoDraft(
+    val title: String,
+    val done: Boolean
+)

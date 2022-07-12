@@ -1,6 +1,7 @@
 package com.manhalrahman.plugins
 
 import com.manhalrahman.entities.ToDo
+import com.manhalrahman.entities.ToDoDraft
 import com.manhalrahman.repository.InMemoryToDoRepository
 import com.manhalrahman.repository.ToDoRepository
 import io.ktor.routing.*
@@ -53,7 +54,6 @@ fun Application.configureRouting() {
                 )
             } else {
                 call.respond(todo)
-
             }
 
         }
@@ -62,16 +62,57 @@ fun Application.configureRouting() {
         //TODO
 
         post("/todos") {
-
+            val todoDraft = call.receive<ToDoDraft>()
+            val todo = repository.addTodo(todoDraft)
+            call.respond(todo)
         }
 
-        post("/todos/{id}") {
+        put("/todos/{id}") {
+            val todoDraft = call.receive<ToDoDraft>()
+            val todoId = call.parameters["id"]?.toIntOrNull()
 
+
+            if (todoId == null) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "id parameter has to be a number!"
+                )
+                return@put
+            }
+
+            val updated = repository.updateTodo(todoId, todoDraft)
+
+            if(updated) {
+                call.respond(HttpStatusCode.OK)
+            }
+            else {
+                call.respond(HttpStatusCode.NotFound,
+                "found no todo with the id $todoId")
+            }
         }
 
         delete("/todos/{id}") {
+            val todoId = call.parameters["id"]?.toIntOrNull()
 
+            if (todoId == null) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "id parameter has to be a number!"
+                )
+                return@delete
+            }
+
+            val removed = repository.removeTodo(todoId)
+            if(removed) {
+                call.respond(HttpStatusCode.OK)
+            }
+            else {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    "found no todo with id $todoId"
+                )
+            }
         }
-    }
 
+    }
 }
