@@ -19,6 +19,8 @@ fun Application.configureRouting() {
         }
 
         get("/todos/{id}") {
+            val id = call.parameters["id"]
+            call.respondText("TODOList Details for ToDo item #$id")
 
         }
 
