@@ -1,6 +1,8 @@
 package com.manhalrahman.plugins
 
 import com.manhalrahman.entities.ToDo
+import com.manhalrahman.repository.InMemoryToDoRepository
+import com.manhalrahman.repository.ToDoRepository
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.application.*
@@ -16,32 +18,48 @@ fun Application.configureRouting() {
 
     install(ContentNegotiation) {
         gson {
-
-
+            setPrettyPrinting()
         }
     }
     routing {
-
-        val todos = listOf<ToDo>(
-            ToDo(1, "Plan content for video #2", true),
-            ToDo(2, "Record video #2", false),
-            ToDo(3, "Upload Video #2", false)
-        )
+        val repository: ToDoRepository = InMemoryToDoRepository()
 
         get("/") {
             call.respondText("Hello TODOList!")
         }
 
         get("/todos") {
-            call.respond(todos)
+            call.respond(repository.getAtllTodos())
 
         }
 
         get("/todos/{id}") {
-            val id = call.parameters["id"]
-            call.respondText("TODOList Details for ToDo item #$id")
+            val id = call.parameters["id"]?.toIntOrNull()
+
+            if (id == null) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "id parameter must be an number"
+                )
+                return@get
+            }
+
+            val todo = repository.getToDo(id)
+
+            if (todo == null) {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    "found no todo for the the provided $id"
+                )
+            } else {
+                call.respond(todo)
+
+            }
 
         }
+
+
+        //TODO
 
         post("/todos") {
 
