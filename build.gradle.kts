@@ -31,4 +31,9 @@ dependencies {
     implementation("io.ktor:ktor-gson:$ktor_version")
 
 
+
+    implementation ("mysql:mysql-connector-java:8.0.11")
+    implementation ("org.ktorm:ktorm-core:3.2.0")
+    implementation ("org.ktorm:ktorm-support-mysql:3.2.0")
+
 }

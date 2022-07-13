@@ -59,8 +59,6 @@ fun Application.configureRouting() {
         }
 
 
-        //TODO
-
         post("/todos") {
             val todoDraft = call.receive<ToDoDraft>()
             val todo = repository.addTodo(todoDraft)
@@ -82,12 +80,13 @@ fun Application.configureRouting() {
 
             val updated = repository.updateTodo(todoId, todoDraft)
 
-            if(updated) {
+            if (updated) {
                 call.respond(HttpStatusCode.OK)
-            }
-            else {
-                call.respond(HttpStatusCode.NotFound,
-                "found no todo with the id $todoId")
+            } else {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    "found no todo with the id $todoId"
+                )
             }
         }
 
@@ -103,10 +102,9 @@ fun Application.configureRouting() {
             }
 
             val removed = repository.removeTodo(todoId)
-            if(removed) {
+            if (removed) {
                 call.respond(HttpStatusCode.OK)
-            }
-            else {
+            } else {
                 call.respond(
                     HttpStatusCode.NotFound,
                     "found no todo with id $todoId"
