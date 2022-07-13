@@ -1,6 +1,8 @@
 package com.manhalrahman.database
 
 import org.ktorm.database.Database
+import org.ktorm.entity.sequenceOf
+import org.ktorm.entity.toList
 
 class DatabaseManager {
     // config
@@ -16,6 +18,11 @@ class DatabaseManager {
 
         val jdbcUrl = "jdbc:mysql://$hostname:3306/$databaseName?user=$username&allowPublicKeyRetrieval=true&password=$password&useSSL=false"
         ktormDatabase = Database.connect(jdbcUrl)
+    }
+
+    fun getAllTodos(): List<DBTodoEntity> {
+        return ktormDatabase.sequenceOf(DBTodoTable).toList()
+
     }
 
 
