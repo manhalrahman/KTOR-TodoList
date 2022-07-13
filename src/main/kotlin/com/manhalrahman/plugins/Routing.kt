@@ -16,7 +16,7 @@ import io.ktor.request.*
 fun Application.configureRouting() {
 
     install(CallLogging) // to track activity in terminal
-    // Starting point for a Ktor app:
+//     Starting point for a Ktor app:
 
     install(ContentNegotiation) {
         gson {
@@ -30,8 +30,8 @@ fun Application.configureRouting() {
             call.respondText("Hello TODOList!")
         }
 
-        get("/todos") {
-            call.respond(repository.getAtllTodos())
+        get("/todos/") {
+            call.respond(repository.getAllTodos())
 
         }
 
@@ -60,7 +60,7 @@ fun Application.configureRouting() {
         }
 
 
-        post("/todos") {
+        post("/todos/") {
             val todoDraft = call.receive<ToDoDraft>()
             val todo = repository.addTodo(todoDraft)
             call.respond(todo)

@@ -8,25 +8,28 @@ class MySQLTodoRepository : ToDoRepository {
 
     private val database = DatabaseManager()
 
-    override fun getAtllTodos(): List<ToDo> {
+    override fun getAllTodos(): List<ToDo> {
         return database.getAllTodos().map {
             ToDo(it.id, it.title, it.done)
         }
     }
 
     override fun getToDo(id: Int): ToDo? {
-        TODO("Not yet implemented")
+        return database.getTodo(id)
+            ?.let{
+                ToDo(it.id, it.title, it.done)
+            }
     }
 
     override fun addTodo(draft: ToDoDraft): ToDo {
-        TODO("Not yet implemented")
+        return database.addTodo(draft)
     }
 
     override fun removeTodo(id: Int): Boolean {
-        TODO("Not yet implemented")
+        return database.removeTodo(id)
     }
 
     override fun updateTodo(id: Int, draft: ToDoDraft): Boolean {
-        TODO("Not yet implemented")
+        return database.updateTodo(id, draft)
     }
 }

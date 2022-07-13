@@ -14,7 +14,7 @@ import org.ktorm.entity.toList
 class DatabaseManager {
     // config
 
-    private val hostname = "0.0.0.0"
+    private val hostname = "localhost"
     private val databaseName = "ktor_todo" // schema name basically
     private val username = "root"
     private val password = "8tqj6kjs"

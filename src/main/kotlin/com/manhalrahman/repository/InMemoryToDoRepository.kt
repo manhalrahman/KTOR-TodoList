@@ -7,7 +7,7 @@ class InMemoryToDoRepository : ToDoRepository {
 
     private val todos = mutableListOf<ToDo>()
 
-    override fun getAtllTodos(): List<ToDo> {
+    override fun getAllTodos(): List<ToDo> {
         return todos
     }
 

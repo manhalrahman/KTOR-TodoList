@@ -4,7 +4,7 @@ import com.manhalrahman.entities.ToDo
 import com.manhalrahman.entities.ToDoDraft
 
 interface ToDoRepository {
-    fun getAtllTodos(): List<ToDo>
+    fun getAllTodos(): List<ToDo>
     fun getToDo(id: Int): ToDo?
     fun addTodo(draft: ToDoDraft): ToDo
 
