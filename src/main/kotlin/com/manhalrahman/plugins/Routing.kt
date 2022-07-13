@@ -3,6 +3,7 @@ package com.manhalrahman.plugins
 import com.manhalrahman.entities.ToDo
 import com.manhalrahman.entities.ToDoDraft
 import com.manhalrahman.repository.InMemoryToDoRepository
+import com.manhalrahman.repository.MySQLTodoRepository
 import com.manhalrahman.repository.ToDoRepository
 import io.ktor.routing.*
 import io.ktor.http.*
@@ -23,7 +24,7 @@ fun Application.configureRouting() {
         }
     }
     routing {
-        val repository: ToDoRepository = InMemoryToDoRepository()
+        val repository: ToDoRepository = MySQLTodoRepository()
 
         get("/") {
             call.respondText("Hello TODOList!")
